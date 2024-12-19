@@ -1,0 +1,5 @@
+<!-- res/drawable/button_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F6F7FB"></solid>
+    <corners android:topRightRadius="50dp" android:topLeftRadius="50dp" /> <!-- Bo tròn các góc -->
+</shape>

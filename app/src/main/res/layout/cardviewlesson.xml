@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:id="@+id/cardViewLesson"
+    app:cardCornerRadius="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/iconLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/logoless"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textClassName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/bevietnamprobold"
+            android:text="Lập trình Ứng dụng"
+            android:textColor="@color/colorHead"
+            android:textSize="16dp"
+            app:layout_constraintStart_toEndOf="@+id/iconLogo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iconIDclass"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/idclass"
+            app:layout_constraintStart_toEndOf="@+id/iconLogo"
+            app:layout_constraintTop_toBottomOf="@+id/iconTime" />
+
+        <ImageView
+            android:id="@+id/iconTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/time"
+            app:layout_constraintStart_toEndOf="@+id/iconLogo"
+            app:layout_constraintTop_toBottomOf="@+id/iconLocation" />
+
+        <ImageView
+            android:id="@+id/iconLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/location"
+            app:layout_constraintStart_toEndOf="@+id/iconLogo"
+            app:layout_constraintTop_toBottomOf="@+id/textClassName" />
+
+        <TextView
+            android:id="@+id/txtClassLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="507_2-A3"
+            android:textColor="@color/colorText"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/iconLocation"
+            app:layout_constraintTop_toBottomOf="@+id/textClassName" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="10 AM - 12 AM | 2 hr 00 min"
+            android:textColor="@color/colorText"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/iconTime"
+            app:layout_constraintTop_toBottomOf="@+id/txtClassLocation" />
+
+        <TextView
+            android:id="@+id/txtIdLesson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppinsmedium"
+            android:text="MUL1448-20241"
+            android:textColor="@color/colorText"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/iconIDclass"
+            app:layout_constraintTop_toBottomOf="@+id/txtTime" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
