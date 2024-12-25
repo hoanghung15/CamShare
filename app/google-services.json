@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "158349005129",
+    "firebase_url": "https://hello-f15a5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hello-f15a5",
+    "storage_bucket": "hello-f15a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158349005129:android:5d56a5112424245b39ca98",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8NpQy5RMdJI06xhfj6LLgYW61PHBkX6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

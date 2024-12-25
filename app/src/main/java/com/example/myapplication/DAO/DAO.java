@@ -4,16 +4,19 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.Class.LessonManager;
 import com.example.myapplication.Class.StudentManager;
 import com.example.myapplication.Class.User;
 import com.example.myapplication.Class.UserManager;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +30,11 @@ import java.util.Map;
 public class DAO {
     private String email, password;
     private Context context;
-    private static final String TAG = "DAO";
-    private static final String LOGIN_URL = "http://192.168.1.32/CamCheckin/login.php";
-    private static final String LESSONS_URL = "http://192.168.1.32/CamCheckin/getLesson.php";
-    private static final String STUDENTS_URL = "http://192.168.1.32/CamCheckin/fetch_sinhvien.php";
+    private static final String TAG = "DAOtest";
+    private static final String LOGIN_URL = "http://192.168.1.8/CamCheckin/login.php";
+    private static final String LESSONS_URL = "http://192.168.1.8/CamCheckin/getLesson.php";
+    private static final String STUDENTS_URL = "http://192.168.1.8/CamCheckin/fetch_sinhvien.php";
+    private static final String STUDENTS_URL_LOSS = "http://192.168.1.8/CamCheckin/update_student_loss.php";
 
     // Constructor nhận Context
     public DAO(Context context) {
@@ -177,6 +181,7 @@ public class DAO {
 
         queue.add(stringRequest);
     }
+
     public void getStudentManagers(final String lessonID, final StudentCallback callback) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -244,4 +249,38 @@ public class DAO {
     public interface StudentCallback{
         void onResult(List<StudentManager> studentManagers);
     }
+    public interface updateStudentLossCallback {
+        void onResult(String isConnect);
+    }
+    public void updateStudentLoss(final String userId, final String lessonID,final  String msv,final String timeStamp) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, STUDENTS_URL_LOSS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("API_RESPONSE", "Phản hồi từ server: " + response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("API_ERROR", "Lỗi khi gọi API: " + error.getMessage());
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", userId);
+                params.put("lesson_id", lessonID);
+                params.put("student_id", msv);
+                params.put("timeStamp", timeStamp);
+                // Gửi dữ liệu user_id và lesson_id
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
 }

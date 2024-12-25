@@ -37,6 +37,7 @@ public class detailLesson extends AppCompatActivity {
     private FrameLayout frmDSSV;
     private  lessonSelection lessonSelection;
     public List<Student>lstStudent = new ArrayList<>();
+    private String  lesson_id,lesson_name;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +80,13 @@ public class detailLesson extends AppCompatActivity {
 
         btndiemdanh.setOnClickListener(v ->{
             Intent intent = new Intent(detailLesson.this, CameraCheckin.class);
+            intent.putExtra("lstStudent",new ArrayList<>(lstStudent));
+            intent.putExtra("lessID",lesson_id);
+            intent.putExtra("lessName",lesson_name);
             startActivity(intent);
         });
-        String lesson_id = lessonSelection.getId();
+        lesson_id = lessonSelection.getId();
+        lesson_name = lessonSelection.getName();
         Log.e("tmpID1",lesson_id);
         DAO dao = new DAO(this);
 
