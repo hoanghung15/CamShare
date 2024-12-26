@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.myapplication.Class.Student;
 import com.example.myapplication.Class.StudentManager;
+import com.example.myapplication.Class.UserManager;
 import com.example.myapplication.Class.lessonSelection;
 
 import com.example.myapplication.DAO.DAO;
@@ -34,7 +35,7 @@ public class detailLesson extends AppCompatActivity {
     private  TextView txtNameClass;
     private ProgressBar prgProcess;
     private AppCompatButton btndiemdanh;
-    private FrameLayout frmDSSV;
+    private FrameLayout frmDSSV,frameLayout8,frameLayout9;
     private  lessonSelection lessonSelection;
     public List<Student>lstStudent = new ArrayList<>();
     private String  lesson_id,lesson_name;
@@ -57,10 +58,28 @@ public class detailLesson extends AppCompatActivity {
         prgProcess =findViewById(R.id.prgProcess);
         btndiemdanh = findViewById(R.id.btndiemdanh);
         frmDSSV = findViewById(R.id.frmDSSV);
+        frameLayout8 =findViewById(R.id.frameLayout8);
+        frameLayout9 = findViewById(R.id.frameLayout9);
 
         frmDSSV.setOnClickListener(v->{
             Intent intent = new Intent(detailLesson.this, ListStudentView.class);
             intent.putExtra("lstStudent", new ArrayList<>(lstStudent));
+            startActivity(intent);
+        });
+
+        frameLayout8.setOnClickListener(v ->{
+            String userId = UserManager.getInstance().getUser().getId();
+            Intent intent = new Intent(this,HistoryCheckin.class);
+            intent.putExtra("lessonID",lesson_id);
+            intent.putExtra("userID",  userId);
+            startActivity(intent);
+        });
+
+        frameLayout9.setOnClickListener(v ->{
+            String user_id = UserManager.getInstance().getUser().getId();
+            Intent intent = new Intent(this, StatisticStudentLoss.class);
+            intent.putExtra("lessonID",lesson_id);
+            intent.putExtra("userID",  user_id);
             startActivity(intent);
         });
 

@@ -1,5 +1,6 @@
 package com.example.myapplication.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -38,8 +39,11 @@ public class CheckinDone extends AppCompatActivity {
     private Set<Student> lstStCheckin,lstStLoss;
     private String timeStamp,lessonName,lesssonID,date,time;
     private TextView txtDateTime,txtCountCheckin,txtLoss;
+
     private List<Student>lstStCheckinDone = new ArrayList<>();
     private List<Student>lstStCheckinLoss = new ArrayList<>();
+    private List<String>lstDraft;
+
     private RecyclerView recyclerStudentLoss,recyclerStudentCheckin;
     private ImageView btnReturn;
     private AppCompatButton btnSavenDownload;
@@ -66,6 +70,7 @@ public class CheckinDone extends AppCompatActivity {
             finish();
         });
         btnSavenDownload.setOnClickListener(v ->{
+            String userId = UserManager.getInstance().getUser().getId();
             try {
                 saveFileToPublicDownloads();
             } catch (IOException e) {
@@ -73,13 +78,22 @@ public class CheckinDone extends AppCompatActivity {
                 Log.e(TAG,e.toString());
                 Toast.makeText(this, "Error saving file", Toast.LENGTH_SHORT).show();
             }
+
             updateStudentLoss();
+
+            Intent intent = new Intent(this, HistoryCheckin.class);
+            intent.putExtra("lessonID",lesssonID);
+            intent.putExtra("userID",  userId);
+            intent.putExtra("timeStamp",timeStamp);
+            startActivity(intent);
         });
 
         lstStudent =(List<Student>) getIntent().getSerializableExtra("lstStudent");
         lstIdDone =(List<String>)getIntent().getSerializableExtra("lstIdDone");
         lstIdLoss = new ArrayList<>();
         lstStCheckin = new HashSet<>();
+        lstDraft = new ArrayList<>();
+
         timeStamp = (String)getIntent().getSerializableExtra("timeStamp");
         lessonName = (String)getIntent().getSerializableExtra("lessName");
         lesssonID = (String)getIntent().getSerializableExtra("lessID");
@@ -197,4 +211,6 @@ public class CheckinDone extends AppCompatActivity {
         }
 
     }
+
+
 }

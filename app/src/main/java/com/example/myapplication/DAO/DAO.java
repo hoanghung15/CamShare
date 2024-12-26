@@ -31,12 +31,13 @@ public class DAO {
     private String email, password;
     private Context context;
     private static final String TAG = "DAOtest";
-    private static final String LOGIN_URL = "http://192.168.1.8/CamCheckin/login.php";
-    private static final String LESSONS_URL = "http://192.168.1.8/CamCheckin/getLesson.php";
-    private static final String STUDENTS_URL = "http://192.168.1.8/CamCheckin/fetch_sinhvien.php";
-    private static final String STUDENTS_URL_LOSS = "http://192.168.1.8/CamCheckin/update_student_loss.php";
-
-    // Constructor nhận Context
+    private static final String LOGIN_URL = "http://192.168.1.31/CamCheckin/login.php";
+    private static final String LESSONS_URL = "http://192.168.1.31/CamCheckin/getLesson.php";
+    private static final String STUDENTS_URL = "http://192.168.1.31/CamCheckin/fetch_sinhvien.php";
+    private static final String STUDENTS_URL_LOSS = "http://192.168.1.31/CamCheckin/update_student_loss.php";
+    private static final String CHECKIN_DRAFT_URL="http://192.168.1.31/CamCheckin/getDraftCheckin.php";
+    private static final String STUDENT_LOSS_STATISTIC="http://192.168.1.31/CamCheckin/statistic_student_loss.php";
+     // Constructor nhận Context
     public DAO(Context context) {
         this.context = context;
     }
@@ -238,6 +239,106 @@ public class DAO {
         queue.add(stringRequest);
     }
 
+
+    public void getDraftCheckin(final String lessonID, final String userID, final GetDraftCheckinCallback getDraftCheckinCallback){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                CHECKIN_DRAFT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){
+                                JSONArray timeStampArray = jsonResponse.getJSONArray("draftcheckin");
+                                List<String>lstDraftCheckin = new ArrayList<>();
+                                for(int i=0;i<timeStampArray.length();i++){
+                                    String timestamp = timeStampArray.getString(i);
+                                    lstDraftCheckin.add(timestamp);
+                                }
+                                getDraftCheckinCallback.onResult(lstDraftCheckin);
+                            }
+                            else {
+                                String message = jsonResponse.optString("message", "Không lấy được danh sách bài học.");
+                                Log.e(TAG, message);
+                                getDraftCheckinCallback.onResult(null);
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Lỗi phân tích JSON: " + e.getMessage());
+                            getDraftCheckinCallback.onResult(null);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Lỗi phân tích JSON: " + error.getMessage());
+                        getDraftCheckinCallback.onResult(null);
+                    }
+                }
+        ){
+            @Override
+            protected Map<String,String>getParams(){
+                Map<String,String>params = new HashMap<>();
+                params.put("lessonID",lessonID);
+                params.put("userID",userID);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void getListStatisticStudentLoss(final String lessonID, final String userID, final StatisticStudentLossCalback statisticStudentLossCalback){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                STUDENT_LOSS_STATISTIC,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if(success){
+                                JSONArray timeStampArray = jsonResponse.getJSONArray("statisticLoss");
+                                List<String>lstDraftCheckin = new ArrayList<>();
+                                for(int i=0;i<timeStampArray.length();i++){
+                                    String timestamp = timeStampArray.getString(i);
+                                    lstDraftCheckin.add(timestamp);
+                                }
+                                statisticStudentLossCalback.onResult(lstDraftCheckin);
+                            }
+                            else {
+                                String message = jsonResponse.optString("message", "Không lấy được danh sách bài học.");
+                                Log.e(TAG, message);
+                                statisticStudentLossCalback.onResult(null);
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Lỗi phân tích JSON: " + e.getMessage());
+                            statisticStudentLossCalback.onResult(null);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Lỗi phân tích JSON: " + error.getMessage());
+                        statisticStudentLossCalback.onResult(null);
+                    }
+                }
+        ){
+            @Override
+            protected Map<String,String>getParams(){
+                Map<String,String>params = new HashMap<>();
+                params.put("lessonID",lessonID);
+                params.put("userID",userID);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
     // Định nghĩa interface Callback cho login
     public interface LoginCallback {
         void onResult(String isConnect);
@@ -251,6 +352,13 @@ public class DAO {
     }
     public interface updateStudentLossCallback {
         void onResult(String isConnect);
+    }
+    public interface GetDraftCheckinCallback{
+        void onResult(List<String>lstDraftCheckin);
+    }
+
+    public interface StatisticStudentLossCalback{
+        void onResult(List<String>lstStatisticStLoss);
     }
     public void updateStudentLoss(final String userId, final String lessonID,final  String msv,final String timeStamp) {
         RequestQueue queue = Volley.newRequestQueue(context);
